@@ -79,8 +79,12 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
          stack[topIndex] = toPush;
       }
    }
-//  < Implementations of the stack operations go here. >
-//  < Implementations of the private methods go here; checkCapacity and checkIntegrity
-//    are analogous to those in Chapter 2. >
-//  . . .
+
+   public double evaluatePostfix()
+   {
+      
+      double result = 0.0;
+      //evaluate postfix result of postfix expression
+      return result;
+   }
 } // end ArrayStack

@@ -88,4 +88,10 @@ public final class LinkedStack<T> implements StackInterface<T>
       Node pushed = new Node(toPush, topNode);
       topNode = pushed;
    }
+
+   public LinkedStack<T> convertToPostfix()
+   {
+      //converts current contents to postfix notation from infix
+      return this;
+   }
 } // end LinkedStack
