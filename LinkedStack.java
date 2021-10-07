@@ -12,9 +12,6 @@ public final class LinkedStack<T> implements StackInterface<T>
    {
       topNode = null;
    } // end default constructor
-  
-//  < Implementations of the stack operations go here. >
-//  . . .
 
 	private class Node
 	{
@@ -53,45 +50,77 @@ public final class LinkedStack<T> implements StackInterface<T>
       } // end setNextNode
 	} // end Node
 
-   public void clear()
-   {
-      topNode = null;
-   }
-
    public T peek()
    {
-      if (topNode != null)
+      if (isEmpty())
+         throw new EmptyStackException();
+      else
          return topNode.getData();
-      return null;
-   }
-
-   public boolean isEmpty()
-   {
-      if (topNode == null)
-         return true;
-      return false;
-   }
+   } // end peek
 
    public T pop()
    {
-      if (topNode != null)
-      {
-         Node toPop = new Node(topNode.getData(), topNode.getNextNode());
-         topNode = topNode.getNextNode();
-         return toPop.getData();
-      }
-      return null;
-   }
+      T top = peek();  // Might throw EmptyStackException
 
-   public void push(T toPush)
+      // Assertion: topNode != null
+      topNode = topNode.getNextNode();
+
+      return top;
+   } // end pop
+
+   public void push(T newEntry)
    {
-      Node pushed = new Node(toPush, topNode);
-      topNode = pushed;
-   }
+      Node newNode = new Node(newEntry, topNode);
+      topNode = newNode;
+   } // end push
 
-   public LinkedStack<T> convertToPostfix()
+   public boolean isEmpty()
+   {
+      return topNode == null;
+   } // end isEmpty
+
+   public void clear()
+   {
+      topNode = null;
+   } // end clear
+
+   public String convertToPostfix(LinkedStack<T> infix)
    {
       //converts current contents to postfix notation from infix
-      return this;
+      LinkedStack<Character> operatorStack = new LinkedStack<Character>();
+      String postfix = "";
+      while (infix != null && !infix.isEmpty())
+      {
+         char nextCharacter = (char)infix.peek();
+         switch (nextCharacter)
+         {
+            case '^':
+               operatorStack.push(nextCharacter);
+               break;
+            case '+': case '-': case '*': case '/':
+               while(!operatorStack.isEmpty()/*&& nextCharacter.precedence <= operatorStack.peek().precedence*/)
+               {
+                  postfix = postfix + operatorStack.peek();
+                  operatorStack.pop();
+               }
+               operatorStack.push(nextCharacter);
+               break;
+            case ')': //stack is not empty if infix expression is valid
+               char topOperator = operatorStack.pop();
+               while(topOperator != '(')
+               {
+                  postfix = postfix + topOperator;
+                  topOperator = operatorStack.pop();
+               }
+               break;
+            default: break; //ignore unexpected characters
+         }
+      }
+      while(!operatorStack.isEmpty())
+      {
+         char topOperator = operatorStack.pop();
+         postfix = postfix + topOperator;
+      }
+      return postfix;
    }
 } // end LinkedStack
