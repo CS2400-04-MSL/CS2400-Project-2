@@ -1,3 +1,5 @@
+import java.util.*;;
+
 /**
     A class of stacks whose entries are stored in an array.
     @author Frank M. Carrano and Timothy M. Henry
@@ -29,15 +31,6 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       integrityOK = true;
    } // end constructor
 
-   public void checkCapacity(int cap)
-   {
-      if (topIndex >= cap && cap <= MAX_CAPACITY/2)
-      {
-         //double size of array
-      }
-      //capacity is fine, or capacity cannot be doubled
-   }
-
    public void clear()
    {
       for (int i = 0; i < topIndex; i++)
@@ -47,42 +40,64 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       topIndex = 0;
    }
 
-   public boolean isEmpty()
+   public void push(T newEntry)
    {
-      if (stack[0] != null)
-         return true;
-      return false;
-   }
+      checkIntegrity();
+      ensureCapacity();
+      stack[topIndex + 1] = newEntry;
+      topIndex++;
+   } // end push
+
+   private void ensureCapacity()
+   {
+      if (topIndex >= stack.length - 1) // If array is full, double its size
+      {
+         int newLength = 2 * stack.length;
+         checkCapacity(newLength);
+         stack = Arrays.copyOf(stack, newLength);
+      } // end if
+   } // end ensureCapacity
 
    public T peek()
    {
-      return stack[topIndex];
-   }
+      checkIntegrity();
+      if (isEmpty())
+         throw new EmptyStackException();
+      else
+         return stack[topIndex];
+   } // end peek
 
    public T pop()
    {
-      if (integrityOK)
+      checkIntegrity();
+      if (isEmpty())
+         throw new EmptyStackException();
+      else
       {
          T top = stack[topIndex];
          stack[topIndex] = null;
          topIndex--;
          return top;
-      }
-      return null;
+      } // end if
+   } // end pop
+
+   public boolean isEmpty()
+   {
+      return topIndex < 0;
+   } // end isEmpty
+
+   public void checkCapacity(int cap)
+   {
+      //check the capacity of the stack
    }
 
-   public void push(T toPush)
+   public void checkIntegrity()
    {
-      if (integrityOK)
-      {
-         topIndex++;
-         stack[topIndex] = toPush;
-      }
+      //check the integrity of the stack
    }
 
    public double evaluatePostfix()
    {
-      
       double result = 0.0;
       //evaluate postfix result of postfix expression
       return result;
