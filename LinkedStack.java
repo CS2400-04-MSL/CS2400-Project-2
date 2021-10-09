@@ -98,7 +98,8 @@ public final class LinkedStack<T> implements StackInterface<T>
                operatorStack.push(nextCharacter);
                break;
             case '+': case '-': case '*': case '/':
-               while(!operatorStack.isEmpty()/*&& nextCharacter.precedence <= operatorStack.peek().precedence*/)
+               while(!operatorStack.isEmpty() 
+               && ((nextCharacter <= operatorStack.peek() && nextCharacter != '*') || (nextCharacter == '*' && (operatorStack.peek() == '*' || operatorStack.peek() == '/')))) //check precedence
                {
                   postfix = postfix + operatorStack.peek();
                   operatorStack.pop();
