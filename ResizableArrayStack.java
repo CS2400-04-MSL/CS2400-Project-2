@@ -99,7 +99,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
          throw new SecurityException("ResizeableArrayStack object is corrupt.");
    }
 
-   public double evaluatePostfix()
+   public double evaluatePostfix(String postfix)
    {
       /**
        * // Evaluates a postfix expression.
@@ -123,13 +123,46 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
        * }
        * return valueStack.peek()
       */
-
-
-
+      ResizableArrayStack<Double> valueStack = new ResizableArrayStack<>();
+      char nextChar = ' ';
       double result = 0.0;
+
+      while (!postfix.isEmpty())
+      {
+         if(postfix.charAt(0) != ' ')
+            nextChar = postfix.charAt(0);
+         else
+            postfix = postfix.substring(1);
+         switch (nextChar)
+         {
+            case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+               valueStack.push((double) (nextChar - 48)); //pushes value of nextChar as a double (0 -> 0.0, 1 -> 1.0, etc.)
+               break;
+            case '+': 
+               result = valueStack.pop() + valueStack.pop();
+               valueStack.push(result);
+               break; 
+            case '-': 
+               result = valueStack.pop() - valueStack.pop();
+               valueStack.push(result);
+               break;
+            case '*': 
+               result = valueStack.pop() * valueStack.pop();
+               valueStack.push(result);
+               break;
+            case '/': 
+               result = valueStack.pop() / valueStack.pop();
+               valueStack.push(result);
+               break;
+            case '^':
+               result = Math.pow(valueStack.pop(), valueStack.pop());
+               valueStack.push(result);
+               break;
+            default: break; //Ignore unexpected characters
+         }
+      }
       //evaluate postfix result of postfix expression
-
-
+      result = valueStack.peek();
       return result;
    }
 } // end ArrayStack
