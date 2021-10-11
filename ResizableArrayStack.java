@@ -1,4 +1,4 @@
-import java.util.*;;
+import java.util.*;
 
 /**
     A class of stacks whose entries are stored in an array.
@@ -7,11 +7,11 @@ import java.util.*;;
 */
 public final class ResizableArrayStack<T> implements StackInterface<T>
 {
-	private T[] stack;    // Array of stack entries
-	private int topIndex; // Index of top entry
+   private T[] stack;    // Array of stack entries
+   private int topIndex; // Index of top entry
    private boolean integrityOK = false;
-	private static final int DEFAULT_CAPACITY = 50;
-	private static final int MAX_CAPACITY = 10000;
+   private static final int DEFAULT_CAPACITY = 50;
+   private static final int MAX_CAPACITY = 10000;
   
    public ResizableArrayStack()
    {
@@ -88,18 +88,48 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
 
    public void checkCapacity(int cap)
    {
-      //check the capacity of the stack
+      if (cap > MAX_CAPACITY)
+         throw new IllegalStateException("Attempt to create a bag whose " +
+                 "capacity exceeds allowed maximum of " + MAX_CAPACITY);
    }
 
-   public void checkIntegrity()
+   private void checkIntegrity()
    {
-      //check the integrity of the stack
+      if (!integrityOK)
+         throw new SecurityException("ResizeableArrayStack object is corrupt.");
    }
 
    public double evaluatePostfix()
    {
+      /**
+       * // Evaluates a postfix expression.
+       * valueStack = a new empty stack
+       * while (postfix has characters left to parse)
+       * {
+       *    nextCharacter = next nonblank character of postfix
+       *    switch (nextCharacter)
+       *    {
+       *       case variable:
+       *          valueStack.push(value of the variable nextCharacter)
+       *          break
+       *       case '+' : case '-' : case '*' : case '/' : case '^' :
+       *          operandTwo = valueStack.pop()
+       *          operandOne = valueStack.pop()
+       *          result = the result of the operation in nextCharacter and its operands operandOne and operandTwo
+       *          valueStack.push(result)
+       *          break
+       *       default: break // Ignore unexpected characters
+       *    }
+       * }
+       * return valueStack.peek()
+      */
+
+
+
       double result = 0.0;
       //evaluate postfix result of postfix expression
+
+
       return result;
    }
 } // end ArrayStack
