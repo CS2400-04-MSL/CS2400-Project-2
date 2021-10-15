@@ -84,44 +84,8 @@ public final class LinkedStack<T> implements StackInterface<T>
       topNode = null;
    } // end clear
 
-   public String convertToPostfix(LinkedStack<T> infix)
-   {
-      //converts current contents to postfix notation from infix
-      LinkedStack<Character> operatorStack = new LinkedStack<Character>();
-      String postfix = "";
-      while (infix != null && !infix.isEmpty())
-      {
-         char nextCharacter = (char)infix.peek();
-         switch (nextCharacter)
-         {
-            case '^':
-               operatorStack.push(nextCharacter);
-               break;
-            case '+': case '-': case '*': case '/':
-               while(!operatorStack.isEmpty() 
-               && ((nextCharacter <= operatorStack.peek() && nextCharacter != '*') || (nextCharacter == '*' && (operatorStack.peek() == '*' || operatorStack.peek() == '/')))) //check precedence
-               {
-                  postfix = postfix + operatorStack.peek();
-                  operatorStack.pop();
-               }
-               operatorStack.push(nextCharacter);
-               break;
-            case ')': //stack is not empty if infix expression is valid
-               char topOperator = operatorStack.pop();
-               while(topOperator != '(')
-               {
-                  postfix = postfix + topOperator;
-                  topOperator = operatorStack.pop();
-               }
-               break;
-            default: break; //ignore unexpected characters
-         }
-      }
-      while(!operatorStack.isEmpty())
-      {
-         char topOperator = operatorStack.pop();
-         postfix = postfix + topOperator;
-      }
-      return postfix;
-   }
+
+
+
+
 } // end LinkedStack
