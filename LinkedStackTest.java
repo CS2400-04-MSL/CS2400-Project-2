@@ -7,92 +7,55 @@ public class LinkedStackTest
     {
         // infix expression
         String infixExpression = "a*b/(c-a)+d*e";
-
-        // create a LinkedStack and populate it with the infixExpression
-        LinkedStack<Character> infix = new LinkedStack<Character>();
-        for (int i = 0; i < infixExpression.length(); i++)
-            infix.push(infixExpression.charAt(i));
-
         System.out.println("infix expression is: a*b/(c-a)+d*e");
-
-        /** convertToPostfix() method */
-        LinkedStack<Character> operatorStack = new LinkedStack<Character>();
-        String postfix = "";
-        while (infix != null && !infix.isEmpty())
-        {
-            char nextCharacter = (char)infix.peek();
-            switch (nextCharacter)
-            {
-                case '^':
-                    operatorStack.push(nextCharacter);
-                    break;
-                case '+': case '-': case '*': case '/':
-                while(!operatorStack.isEmpty()
-                        && ((nextCharacter <= operatorStack.peek() && nextCharacter != '*') || (nextCharacter == '*' && (operatorStack.peek() == '*' || operatorStack.peek() == '/')))) //check precedence
-                {
-                    postfix = postfix + operatorStack.peek();
-                    operatorStack.pop();
-                }
-                operatorStack.push(nextCharacter);
-                break;
-                case ')': //stack is not empty if infix expression is valid
-                    char topOperator = operatorStack.pop();
-                    while(topOperator != '(')
-                    {
-                        postfix = postfix + topOperator;
-                        topOperator = operatorStack.pop();
-                    }
-                    break;
-                default: break; //ignore unexpected characters
-            }
-        }
-
-        while(!operatorStack.isEmpty())
-        {
-            char topOperator = operatorStack.pop();
-            postfix = postfix + topOperator;
-        }
-
-        System.out.println("postfix expression is: " + postfix);
-
-
-        //String postFix = convertToPostfix(stack1);
-        //System.out.println("over" + postFix);
-
+        System.out.println("postfix expression is: " + convertToPostfix(infixExpression));
     }
 
 
-
-    /**
-    public static <T> String convertToPostfix(LinkedStack<T> infix)
+    public static String convertToPostfix(String infix)
     {
         //converts current contents to postfix notation from infix
         LinkedStack<Character> operatorStack = new LinkedStack<Character>();
         String postfix = "";
-        while (infix != null && !infix.isEmpty())
+
+
+        //operatorStack.push();
+
+        while (infix != null && !infix.equals(""))
         {
-            char nextCharacter = (char)infix.peek();
+            char nextCharacter = infix.charAt(0);
+            infix = infix.substring(1);
+
             switch (nextCharacter)
             {
+                case 'a': case 'b': case 'c': case 'd': case 'e':
+                    postfix += nextCharacter;
+                    break;
                 case '^':
                     operatorStack.push(nextCharacter);
                     break;
                 case '+': case '-': case '*': case '/':
-                while(!operatorStack.isEmpty()
-                        && ((nextCharacter <= operatorStack.peek() && nextCharacter != '*') || (nextCharacter == '*' && (operatorStack.peek() == '*' || operatorStack.peek() == '/')))) //check precedence
-                {
-                    postfix = postfix + operatorStack.peek();
-                    operatorStack.pop();
-                }
-                operatorStack.push(nextCharacter);
-                break;
+                    while(!operatorStack.isEmpty()
+                            && precedence(nextCharacter) <= precedence(operatorStack.peek())) //check precedence //original: && ((nextCharacter <= operatorStack.peek() && nextCharacter != '*') || (nextCharacter == '*' && (operatorStack.peek() == '*' || operatorStack.peek() == '/')))
+                    {
+                        postfix += operatorStack.peek();
+                        operatorStack.pop();
+                    }
+                    operatorStack.push(nextCharacter);
+                    break;
+                case '(':
+                    operatorStack.push(nextCharacter);
+                    break;
                 case ')': //stack is not empty if infix expression is valid
                     char topOperator = operatorStack.pop();
                     while(topOperator != '(')
                     {
-                        postfix = postfix + topOperator;
-                        topOperator = operatorStack.pop();
-                    }
+                        postfix += topOperator;
+                        if(!operatorStack.isEmpty())
+                            topOperator = operatorStack.pop();
+                        else
+                            break;
+                    }                       
                     break;
                 default: break; //ignore unexpected characters
             }
@@ -104,6 +67,15 @@ public class LinkedStackTest
         }
         return postfix;
     }
-     */
 
+    public static int precedence(char c)
+    {
+        if (c == '(' || c == ')')
+            return -1;
+        if (c == '^')
+            return 2;
+        if (c == '*' || c == '/')
+            return 1;
+        return 0;
+    }
 }
