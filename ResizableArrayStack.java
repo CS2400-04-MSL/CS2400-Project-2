@@ -12,12 +12,19 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
    private boolean integrityOK = false;
    private static final int DEFAULT_CAPACITY = 50;
    private static final int MAX_CAPACITY = 10000;
-  
+
+   /**
+    * Default Constructor
+    */
    public ResizableArrayStack()
    {
       this(DEFAULT_CAPACITY);
    } // end default constructor
-  
+
+   /**
+    * creates an array with a specified capacity
+    * @param initialCapacity
+    */
    public ResizableArrayStack(int initialCapacity)
    {
       integrityOK = false;
@@ -31,6 +38,7 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       integrityOK = true;
    } // end constructor
 
+   /** Removes all entries from this stack. */
    public void clear()
    {
       for (int i = 0; i < topIndex; i++)
@@ -40,6 +48,8 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       topIndex = 0;
    }
 
+   /** Adds a new entry to the top of this stack.
+    @param newEntry  An object to be added to the stack. */
    public void push(T newEntry)
    {
       checkIntegrity();
@@ -48,6 +58,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       topIndex++;
    } // end push
 
+   /**
+    * Doubles the size of the array if the array is full
+    */
    private void ensureCapacity()
    {
       if (topIndex >= stack.length - 1) // If array is full, double its size
@@ -58,6 +71,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       } // end if
    } // end ensureCapacity
 
+   /** Retrieves this stack's top entry.
+    @return  The object at the top of the stack.
+    @throws  EmptyStackException if the stack is empty. */
    public T peek()
    {
       checkIntegrity();
@@ -67,6 +83,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
          return stack[topIndex];
    } // end peek
 
+   /** Removes and returns this stack's top entry.
+    @return  The object at the top of the stack.
+    @throws  EmptyStackException if the stack is empty before the operation. */
    public T pop()
    {
       checkIntegrity();
@@ -81,11 +100,17 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
       } // end if
    } // end pop
 
+   /** Detects whether this stack is empty.
+    @return  True if the stack is empty. */
    public boolean isEmpty()
    {
       return topIndex < 0;
    } // end isEmpty
 
+   /**
+    * checks whether the MAX CAPACITY has been exceeded.
+    * @param cap size of the array
+    */
    public void checkCapacity(int cap)
    {
       if (cap > MAX_CAPACITY)
@@ -93,6 +118,9 @@ public final class ResizableArrayStack<T> implements StackInterface<T>
                  "capacity exceeds allowed maximum of " + MAX_CAPACITY);
    }
 
+   /**
+    * Checks if the array is still valid
+    */
    private void checkIntegrity()
    {
       if (!integrityOK)

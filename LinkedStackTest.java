@@ -1,6 +1,8 @@
-
 import java.util.*;
 
+/**
+ * A class containing test methods for the LinkedStack implementation
+ */
 public class LinkedStackTest
 {
     public static void main(String[] args)
@@ -11,16 +13,18 @@ public class LinkedStackTest
         System.out.println("postfix expression is: " + convertToPostfix(infixExpression));
     }
 
-
+    /**
+     * A class that converts an infix string to a postfix string
+     * @param infix the infix expression
+     * @return the postfix expression as a string
+     */
     public static String convertToPostfix(String infix)
     {
         //converts current contents to postfix notation from infix
         LinkedStack<Character> operatorStack = new LinkedStack<Character>();
         String postfix = "";
 
-
-        //operatorStack.push();
-
+        //iterate through the infix expression
         while (infix != null && !infix.equals(""))
         {
             char nextCharacter = infix.charAt(0);
@@ -68,6 +72,11 @@ public class LinkedStackTest
         return postfix;
     }
 
+    /**
+     * a method that assigns a precedence value to an operator
+     * @param c the operator to evaluate
+     * @return -1 if parenthesis, 2 if power, 1 if multiply or divide
+     */
     public static int precedence(char c)
     {
         if (c == '(' || c == ')')

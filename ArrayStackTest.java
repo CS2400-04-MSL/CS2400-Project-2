@@ -1,11 +1,6 @@
-/**
- * A test
- *
- */
 import java.util.Arrays;
-
 /**
- * A class containing test methods for the ResizeableArrayBag implementation
+ * A class containing test methods for the ResizeableArrayStack implementation
  */
 public class ArrayStackTest {
     public static void main(String[] args)
@@ -14,52 +9,29 @@ public class ArrayStackTest {
 
         System.out.println("postfix expression is: 23*42-/56*+");
 
-        System.out.println("result:" + evaluatePostfix(postfix));
+        System.out.println("result: " + evaluatePostfix(postfix));
 
     } // end main
 
+    /**
+     * Evaluates a postfix string
+     * @param postfix the postfix string to be evaluated
+     * @return the result of the postfix string
+     */
     public static double evaluatePostfix(String postfix)
     {
-        /**
-         * // Evaluates a postfix expression.
-         * valueStack = a new empty stack
-         * while (postfix has characters left to parse)
-         * {
-         *    nextCharacter = next nonblank character of postfix
-         *    switch (nextCharacter)
-         *    {
-         *       case variable:
-         *          valueStack.push(value of the variable nextCharacter)
-         *          break
-         *       case '+' : case '-' : case '*' : case '/' : case '^' :
-         *          operandTwo = valueStack.pop()
-         *          operandOne = valueStack.pop()
-         *          result = the result of the operation in nextCharacter and its operands operandOne and operandTwo
-         *          valueStack.push(result)
-         *          break
-         *       default: break // Ignore unexpected characters
-         *    }
-         * }
-         * return valueStack.peek()
-         */
-
+        // Creates a new ArrayStack
         ResizableArrayStack<Double> valueStack = new ResizableArrayStack<>();
         char nextChar = ' ';
         double result = 0.0;
 
+        // iterates through the postfix expression
         for (int i = 0; i < postfix.length(); i++)
         {
-
-            System.out.println("iteration:" + i);
-            if (valueStack.isEmpty())
-                System.out.println("empty");
-            else
-                System.out.println(valueStack.peek());
-
             if(postfix.charAt(i) != ' ')
                 nextChar = postfix.charAt(i);
             else
-                break;
+                break;  // skip empty characters
             switch (nextChar)
             {
                 case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
@@ -96,6 +68,4 @@ public class ArrayStackTest {
         result = valueStack.peek();
         return result;
     }
-
-
 }
