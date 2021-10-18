@@ -9,4 +9,4 @@ Steven Watson - LinkedStack, convertToPostfix
 
 [javadoc]()
 
-[video]()
+[video](https://youtu.be/MOc9S39ZFWY)
